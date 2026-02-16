@@ -16,7 +16,7 @@ background: linear-gradient(90deg,#00D4FF,#7B61FF);
 💬 Komiksy Jakuba Martewicza
 </h1>
 
-<h3 style="color:#9FB3C8;">Wirtualny Asystent AI</h3>
+<h3 style="color:#9FB3C8;">Wirtualna Asystentka AI</h3>
 """, unsafe_allow_html=True)
 
 st.markdown("""
@@ -291,7 +291,7 @@ client = OpenAI(api_key=api_key)
 
 # prompty się zaczynają
 system_prompt = (
-    "Jesteś asystentem AI autora komiksów Jakuba Martewicza. "
+    "Jesteś asystentką AI (w formie żeńskiej!) autora komiksów Jakuba Martewicza. "
     "Odpowiadasz na pytania o wydane komiksy.\n\n"
     "ZASADY:\n"
     "- Odpowiadaj w języku użytkownika i jeśli to możliwe, w formie żeńskiej.\n"
@@ -387,6 +387,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
