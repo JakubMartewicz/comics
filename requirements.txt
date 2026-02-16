@@ -1,4 +1,4 @@
-openai
 streamlit
-pdfplumber
-python-dotenv
+openai
+pyyaml
+
