@@ -180,7 +180,21 @@ def normalize(text: str) -> str:
 
 
 def rag_light_context(question: str, docs, k: int = 4) -> str:
+  
     q = normalize(question)
+
+    # 🔥 FALLBACK — pytanie ogólne o listę komiksów
+    if ("komiks" in q or "komiksy" in q) and any(x in q for x in [
+    "jakie", "lista", "spis", "wszystkie", "wydane", "wydałeś", "wydales"
+    ]):
+        blocks = []
+        for d in docs:
+            m = d["meta"]
+            blocks.append(
+                f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, tom/zeszyt: {m.get('volume')}/{m.get('issue')}"
+        )
+        return "PRZEGLĄD BAZY KOMIKSÓW:\n" + "\n".join(blocks)
+
     tokens = [t for t in re.findall(r"[a-ząćęłńóśźż0-9]+", q) if len(t) >= 3]
     if not tokens:
         return "Brak sensownych słów kluczowych w pytaniu."
@@ -369,6 +383,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
