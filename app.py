@@ -260,6 +260,8 @@ comics_docs = load_comics_cached()
 if not comics_docs:
     st.error("Brak poprawnych plików .md w data/comics (wymagane YAML: id/title/year).")
     st.stop()
+    st.write("MD files:", sorted(glob.glob("data/comics/*.md")))
+    st.write("Loaded:", [d["meta"].get("id") for d in comics_docs])
 
 feedback_text = os.getenv("FEEDBACK_TEXT", "")
 
@@ -367,6 +369,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
