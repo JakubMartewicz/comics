@@ -113,14 +113,44 @@ show_online()
 # --- /STATUS ---
 
 def split_front_matter(md_text: str):
-    # oczekuje: --- YAML --- MARKDOWN
-    if not md_text.lstrip().startswith("---"):
-        return {}, md_text.strip()
-    parts = md_text.split("---", 2)
-    if len(parts) < 3:
-        return {}, md_text.strip()
-    meta = yaml.safe_load(parts[1].strip()) or {}
-    body = parts[2].strip()
+    """
+    Obsługuje dwa formaty:
+    1) --- (YAML) --- (MARKDOWN)
+    2) YAML na górze bez --- , do pierwszej pustej linii, potem MARKDOWN
+    """
+    text = (md_text or "").lstrip("\ufeff")  # usuń BOM jeśli jest
+
+    # Format 1: klasyczny front-matter
+    if text.lstrip().startswith("---"):
+        parts = text.split("---", 2)
+        if len(parts) >= 3:
+            meta = yaml.safe_load(parts[1].strip()) or {}
+            body = parts[2].strip()
+            return meta, body
+        return {}, text.strip()
+
+    # Format 2: "goły YAML" na początku pliku
+    lines = text.splitlines()
+    yaml_lines = []
+    body_start = 0
+    for i, line in enumerate(lines):
+        if line.strip() == "":
+            body_start = i + 1
+            break
+        yaml_lines.append(line)
+    else:
+        # cały plik bez pustej linii -> traktuj jako YAML bez body
+        body_start = len(lines)
+
+    yaml_block = "\n".join(yaml_lines).strip()
+    meta = {}
+    if yaml_block:
+        try:
+            meta = yaml.safe_load(yaml_block) or {}
+        except Exception:
+            meta = {}
+
+    body = "\n".join(lines[body_start:]).strip()
     return meta, body
 
 
@@ -337,6 +367,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
