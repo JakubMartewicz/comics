@@ -185,15 +185,19 @@ def rag_light_context(question: str, docs, k: int = 4) -> str:
 
     # 🔥 FALLBACK — pytanie ogólne o listę komiksów
     if ("komiks" in q or "komiksy" in q) and any(x in q for x in [
-    "jakie", "lista", "spis", "wszystkie", "wydane", "wydałeś", "wydales"
+        "jakie", "lista", "spis", "wszystkie", "wydane", "wydałeś", "wydales"
     ]):
-        blocks = []
+        items = []
         for d in docs:
             m = d["meta"]
-            blocks.append(
-                f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, tom/zeszyt: {m.get('volume')}/{m.get('issue')}"
+            items.append(
+                f"{m.get('title')} z {m.get('year')} roku (seria: {m.get('series')}, tom {m.get('volume')}, zeszyt {m.get('issue')})"
+            )
+    
+        return (
+            "W bazie znajdują się następujące komiksy Jakuba Martewicza:\n\n"
+            + "\n".join(items)
         )
-        return "PRZEGLĄD BAZY KOMIKSÓW:\n" + "\n".join(blocks)
 
     tokens = [t for t in re.findall(r"[a-ząćęłńóśźż0-9]+", q) if len(t) >= 3]
     if not tokens:
@@ -383,6 +387,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
