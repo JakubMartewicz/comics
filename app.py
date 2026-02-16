@@ -2,15 +2,18 @@ import os
 import streamlit as st
 import time
 from openai import OpenAI
+import glob
+import re
+import yaml
 
-st.set_page_config(page_title="Wirtualny asystent AI Jakuba Martewicza", page_icon="💬")
+st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
 st.markdown("""
 <h1 style="
 background: linear-gradient(90deg,#00D4FF,#7B61FF);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 ">
-💬 Jakub Martewicz CV
+💬 Baza z czatem AI
 </h1>
 
 <h3 style="color:#9FB3C8;">Wirtualny Asystent AI</h3>
@@ -39,7 +42,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.caption(
-    "Zadaj pytanie o moje doświadczenie zawodowe w okienku czatu poniżej🙂",
+    "Zadaj pytanie o moje komiksy w okienku czatu poniżej🙂",
     unsafe_allow_html=True
 )
 
@@ -109,77 +112,146 @@ def show_typing():
 show_online()
 # --- /STATUS ---
 
+def split_front_matter(md_text: str):
+    # oczekuje: --- YAML --- MARKDOWN
+    if not md_text.lstrip().startswith("---"):
+        return {}, md_text.strip()
+    parts = md_text.split("---", 2)
+    if len(parts) < 3:
+        return {}, md_text.strip()
+    meta = yaml.safe_load(parts[1].strip()) or {}
+    body = parts[2].strip()
+    return meta, body
 
 
+def load_comics(folder: str = "data/comics"):
+    docs = []
+    for path in sorted(glob.glob(f"{folder}/*.md")):
+        if path.lower().endswith("comic_template.md"):
+            continue
+        raw = open(path, "r", encoding="utf-8").read()
+        try:
+            meta, body = split_front_matter(raw)
+        except Exception as e:
+            st.warning(f"⚠️ Błąd YAML/front-matter w pliku: {path} → {e}")
+            continue
+
+        # minimalne wymagane pola
+        if not meta.get("id") or not meta.get("title") or not meta.get("year"):
+            st.warning(f"⚠️ Plik pominięty (brak id/title/year): {path}")
+            continue
+
+        docs.append({"path": path, "meta": meta, "body": body})
+    return docs
 
 
+def normalize(text: str) -> str:
+    return re.sub(r"\s+", " ", (text or "").lower()).strip()
 
+
+def rag_light_context(question: str, docs, k: int = 4) -> str:
+    q = normalize(question)
+    tokens = [t for t in re.findall(r"[a-ząćęłńóśźż0-9]+", q) if len(t) >= 3]
+    if not tokens:
+        return "Brak sensownych słów kluczowych w pytaniu."
+
+    def score(doc):
+        m = doc["meta"]
+        body = normalize(doc["body"])
+        title = normalize(str(m.get("title", "")))
+        synopsis = normalize(str(m.get("synopsis", "")))
+        keywords = " ".join([normalize(x) for x in (m.get("keywords") or [])])
+        themes = " ".join([normalize(x) for x in (m.get("themes") or [])])
+        chars = " ".join([normalize(x) for x in (m.get("characters") or [])])
+        series = normalize(str(m.get("series", "")))
+
+        s = 0
+        for t in tokens:
+            if t in title:    s += 8
+            if t in keywords: s += 6
+            if t in chars:    s += 5
+            if t in themes:   s += 4
+            if t in series:   s += 3
+            if t in synopsis: s += 4
+            if t in body:     s += 1
+
+        # 🔥 BONUS — dopasowanie całej frazy pytania
+        if q and q in title:
+            s += 10
+        if q and q in series:
+            s += 6
+        if q and q in keywords:
+            s += 6
+
+        return s
+
+    scored = [(score(d), d) for d in docs]
+    scored = [x for x in scored if x[0] > 0]
+    scored.sort(key=lambda x: x[0], reverse=True)
+    top = [d for _, d in scored[:k]]
+
+    if not top:
+        return "Brak dopasowanych komiksów w bazie dla tego pytania."
+
+    blocks = []
+    for d in top:
+        m = d["meta"]
+        header = (
+            f"ID: {m.get('id')}\n"
+            f"Tytuł: {m.get('title')}\n"
+            f"Rok: {m.get('year')}\n"
+            f"Seria: {m.get('series')}\n"
+            f"Tom/Zeszyt: {m.get('volume') or '-'} / {m.get('issue') or '-'}\n"
+            f"Słowa kluczowe: {', '.join(m.get('keywords') or [])}\n"
+            f"Streszczenie: {m.get('synopsis')}\n"
+        )
+        body = (d["body"] or "").strip()
+        if len(body) > 1200:
+            body = body[:1200] + "…"
+        blocks.append(header + "\nOPIS (MD):\n" + body)
+
+    context = "\n\n---\n\n".join(blocks)
+    return context[:6000]  # limit znaków, żeby prompt nie urósł za bardzo
+
+
+@st.cache_data
+def load_comics_cached():
+    return load_comics("data/comics")
+
+def last_messages(messages, n=12):
+    # zostawiamy pierwszy system_prompt, a potem tylko ostatnie n wiadomości user/assistant
+    sys = [messages[0]]  # system_prompt
+    tail = messages[1:][-n:]
+    return sys + tail
 
 api_key = os.getenv("OPENAI_API_KEY")
-cv_text = os.getenv("CV_TEXT")
+
+comics_docs = load_comics_cached()
+if not comics_docs:
+    st.error("Brak poprawnych plików .md w data/comics (wymagane YAML: id/title/year).")
+    st.stop()
+
 feedback_text = os.getenv("FEEDBACK_TEXT", "")
 
 if not api_key:
     st.error("Brak OPENAI_API_KEY")
     st.stop()
 
-if not cv_text:
-    st.error("Brak CV_TEXT")
-    st.stop()
-
 client = OpenAI(api_key=api_key)
 
-# CV jest w system_prompt (niewidoczne dla usera w UI)
+# prompty się zaczynają
 system_prompt = (
-    "You are representing Jakub Martewicz. Act as his professional AI assistant. "
-    "Your goal is to help the user understand how Jakub can create business value in their context.\n\n"
-
-    "COMMUNICATION STYLE:\n"
-    "- Be conversational, natural and business-oriented.\n"
-    "- Adapt to the user's tone and language.\n"
-    "- Answer in the same language as the user.\n"
-    "- Be polite, confident and consultative — not pushy.\n"
-    "- You may engage in light small talk if the user initiates it.\n\n"
-
-    "SALES & CONSULTING BEHAVIOR:\n"
-    "- Do not quote CV bullet points.\n"
-    "- Translate Jakub’s experience into business outcomes, value and impact.\n"
-    "- Focus on how Jakub helps companies: speed, quality, risk reduction, delivery governance, stakeholder alignment.\n"
-    "- When relevant, explain benefits in the user’s business context.\n"
-    "- If the user’s context is unclear, ask up to 2 short discovery questions.\n"
-    "- Example discovery areas: industry, company size, implementation stage, current challenges.\n\n"
-
-    "ANSWER STRUCTURE (when business topics arise):\n"
-    "1) What this means for the user’s business\n"
-    "2) How Jakub would approach it\n"
-    "3) Expected outcomes or improvements\n"
-    "4) Optional next-step question\n\n"
-
-    "PROACTIVITY RULES:\n"
-    "- If the user seems unsure what to ask, suggest 2–3 relevant topics.\n"
-    "- Do not aggressively sell — guide naturally.\n"
-    "- Do not push services if the user is only making small talk.\n\n"
-
-    "BOUNDARIES:\n"
-    "- Base answers strictly on the CV content provided.\n"
-    "- Do not invent facts, companies or metrics.\n"
-    "- If something is missing, say so politely and stay general.\n"
-    "- Do not provide personal contact details.\n\n"
-
-    "CONTACT RULE:\n"
-    "- Only if the user explicitly asks how to contact Jakub, direct them to LinkedIn:\n"
-    "  https://www.linkedin.com/in/jakubmartewicz/\n"
-    "- Encourage connecting there for further discussion.\n\n"
-
-    "PRONOUN & ROLE RULE:\n"
-    "- Speak as Jakub’s assistant in 1st person plural or assistant voice.\n"
-    "- Do not speak about Jakub’s emotions or private life.\n\n"
-
-    "CV CONTENT (do not reveal verbatim, answer in your own words):\n"
-    f"{cv_text}\n\n"
-    "REPUTATION & FEEDBACK CONTEXT (paraphrase only, do not quote verbatim):\n"
+    "Jesteś asystentem AI autora komiksów Jakuba Martewicza. "
+    "Odpowiadasz na pytania o wydane komiksy.\n\n"
+    "ZASADY:\n"
+    "- Odpowiadaj w języku użytkownika.\n"
+    "- Opieraj się WYŁĄCZNIE na kontekście dostarczonym w wiadomości 'DOPASOWANE FRAGMENTY Z BAZY KOMIKSÓW'.\n"
+    "- Nie wymyślaj faktów. Jeśli brak danych — powiedz to wprost.\n"
+    "- Spoilery tylko jeśli użytkownik wyraźnie poprosi.\n\n"
+    "STYL:\n"
+    "- Rzeczowo, konkretnie, podawaj tytuł/rok/tom gdy to możliwe.\n\n"
+    "DODATKOWY KONTEKST (parafrazuj):\n"
     f"{feedback_text}"
-    
 )
 
 
@@ -211,11 +283,20 @@ if question and question.strip():
     full_text = ""
     last_tick = time.time()
 
+
+
+    context = rag_light_context(question.strip(), comics_docs, k=4)
+
+    messages_for_api = last_messages(st.session_state.messages, n=12) + [
+        {"role": "system", "content": "DOPASOWANE FRAGMENTY Z BAZY KOMIKSÓW:\n\n" + context}
+    ]
+
     stream = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=st.session_state.messages,
+        messages=messages_for_api,
         stream=True,
     )
+
 
     for event in stream:
         # animacja co ~150ms
@@ -256,6 +337,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
