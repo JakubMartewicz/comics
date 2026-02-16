@@ -1,4 +1,5 @@
 ---
+
 id: "2010-henryk-kaydan-01-01"
 title: "Początek: Część 1 z 2"
 year: 2010
@@ -89,6 +90,8 @@ festivals:
 
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
+  
   ---
+
 
 
