@@ -1,0 +1,4 @@
+openai
+streamlit
+pdfplumber
+python-dotenv
