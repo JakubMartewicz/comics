@@ -42,7 +42,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.caption(
-    "Zadaj pytanie o moje komiksy w okienku czatu poniżej🙂",
+    "Zadaj Lorze pytanie o moje komiksy w okienku czatu poniżej🙂",
     unsafe_allow_html=True
 )
 
@@ -291,7 +291,7 @@ client = OpenAI(api_key=api_key)
 
 # prompty się zaczynają
 system_prompt = (
-    "Jesteś asystentką AI (w formie żeńskiej!) autora komiksów Jakuba Martewicza. "
+    "Jesteś asystentką AI (w formie żeńskiej!) autora komiksów Jakuba Martewicza. Masz na immię Lora. "
     "Odpowiadasz na pytania o wydane komiksy.\n\n"
     "ZASADY:\n"
     "- Odpowiadaj w języku użytkownika i jeśli to możliwe, w formie żeńskiej.\n"
@@ -313,7 +313,7 @@ if st.button("Resetuj rozmowę"):
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "assistant", "content": "Cześć! 👋 Jestem wirtualną asystentką Jakuba. O co chcesz zapytać?"}
+        {"role": "assistant", "content": "Cześć! 👋 Jestem Lora, wirtualna asystentka Jakuba. O co chcesz zapytać?"}
     ]
 
 question = st.chat_input("Tutaj wpisz Twoje pytanie i naciśnij enter lub kliknij strzałkę")
@@ -387,6 +387,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
