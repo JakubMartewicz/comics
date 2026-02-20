@@ -7,12 +7,48 @@ import re
 import yaml
 
 st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
+set_bg("assets/backgroundpic.png")
 
 import base64
 
 def set_bg(image_path: str):
     with open(image_path, "rb") as f:
         data = base64.b64encode(f.read()).decode("utf-8")
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{data}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
+
+        .stApp::before {{
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(
+                rgba(0,0,0,0.35) 0%,
+                rgba(0,0,0,0.50) 40%,
+                rgba(0,0,0,0.65) 100%
+            );
+            z-index: 0;
+            pointer-events: none;
+        }}
+
+        .main, header, footer, [data-testid="stSidebar"] {{
+            position: relative;
+            z-index: 1;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 
 
 
@@ -45,7 +81,7 @@ Wirtualna Asystentka AI
 
 
 
-set_bg("assets/backgroundpic.png")
+
 
 
 
@@ -425,6 +461,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
