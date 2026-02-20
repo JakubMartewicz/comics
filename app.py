@@ -49,35 +49,6 @@ set_bg("assets/backgroundpic.png")
 
 
 
-st.markdown("""
-<h1 style="
-background: linear-gradient(
-90deg,
-#022C22 0%,
-#065F46 12%,
-#059669 24%,
-#10B981 36%,
-#34D399 48%,
-#6EE7B7 60%,
-#A7F3D0 72%,
-#FDE68A 86%,
-#F59E0B 100%
-);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-text-shadow:
-0 0 22px rgba(16,185,129,0.45),
-0 0 42px rgba(52,211,153,0.35),
-0 0 72px rgba(253,230,138,0.25);
-">
-💬 Komiksy Jakuba Martewicza
-</h1>
-
-<h3 style="color:#FDE68A;">Wirtualna Asystentka AI</h3>
-""", unsafe_allow_html=True)
-
-
-
 
 
 st.caption(
@@ -454,6 +425,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
