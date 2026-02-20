@@ -7,25 +7,8 @@ import re
 import yaml
 
 st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
+
 import base64
-
-
-
-st.markdown(
-    """
-    <style>
-    :root { color-scheme: dark !important; }
-    html, body, #root, [data-testid="stAppViewContainer"] {
-        background: #0e1117 !important;
-        color: #e6edf3 !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-
-
 
 def set_bg(image_path: str):
     with open(image_path, "rb") as f:
@@ -59,58 +42,16 @@ def set_bg(image_path: str):
             position: relative;
             z-index: 1;
         }}
-
-        section.main > div.block-container {{
-            background: rgba(15,15,15,0.45);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 18px;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
-        }}
-
-        [data-testid="stChatMessage"] {{
-            background: rgba(0,0,0,0.60);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 0.75rem 1rem;
-        }}
-
-        [data-testid="stChatMessage"] * {{
-            color: rgba(255,255,255,0.92) !important;
-        }}
-
-        [data-testid="stChatInput"] > div {{
-            background: rgba(0,0,0,0.70) !important;
-            border: 1px solid rgba(255,255,255,0.12) !important;
-            border-radius: 14px !important;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }}
-
-        [data-testid="stChatInput"] textarea::placeholder {{
-            color: rgba(255,255,255,0.65) !important;
-        }}
-
-        [data-testid="stSidebar"] > div {{
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-right: 1px solid rgba(255,255,255,0.08);
-        }}
-
-        @media (max-width: 768px) {{
-            .stApp {{ background-attachment: scroll; }}
-            section.main > div.block-container {{ padding: 1.25rem 1rem; }}
-        }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
 set_bg("assets/backgroundpic.png")
+
+
+
+
 
 
 
@@ -505,6 +446,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
