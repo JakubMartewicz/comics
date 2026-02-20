@@ -97,24 +97,23 @@ set_bg("assets/backgroundpic.png")
 
 
 
+
+
+
 st.markdown(
     """
     <style>
-    /* Wymuś dark theme */
-    html, body, .stApp {
-        background-color: #0e1117 !important;
-        color-scheme: dark !important;
+    /* FORCE DARK BACKGROUND EVERYWHERE */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stToolbar"] {
+        background: #0e1117 !important;
     }
-
-    /* Ukryj toggle light/dark (opcjonalnie) */
-    [data-testid="stToolbar"] button {
-        display: none;
+    [data-testid="stAppViewContainer"] * {
+        color-scheme: dark !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
-
 
 
 
@@ -511,6 +510,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
