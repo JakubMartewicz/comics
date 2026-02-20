@@ -7,7 +7,7 @@ import re
 import yaml
 
 st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
-set_bg("assets/backgroundpic.png")
+
 
 import base64
 
@@ -49,6 +49,7 @@ def set_bg(image_path: str):
     )
 
 
+set_bg("assets/backgroundpic.png")
 
 
 st.markdown("""
@@ -451,6 +452,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
