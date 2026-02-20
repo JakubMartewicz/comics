@@ -9,6 +9,24 @@ import yaml
 st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
 import base64
 
+
+
+st.markdown(
+    """
+    <style>
+    :root { color-scheme: dark !important; }
+    html, body, #root, [data-testid="stAppViewContainer"] {
+        background: #0e1117 !important;
+        color: #e6edf3 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
 def set_bg(image_path: str):
     with open(image_path, "rb") as f:
         data = base64.b64encode(f.read()).decode("utf-8")
@@ -487,6 +505,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
