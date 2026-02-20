@@ -62,13 +62,12 @@ st.markdown("""
 <h1 style="
 background: linear-gradient(
 90deg,
-#8B5CF6 0%,
-#6366F1 15%,
-#06B6D4 30%,
-#10B981 45%,
-#F59E0B 60%,
-#EC4899 75%,
-#F43F5E 90%
+#9333EA,
+#6366F1,
+#06B6D4,
+#22D3EE,
+#A78BFA,
+#F472B6
 );
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
@@ -455,6 +454,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
