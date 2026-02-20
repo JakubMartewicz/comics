@@ -99,29 +99,6 @@ set_bg("assets/backgroundpic.png")
 
 
 
-
-st.markdown(
-    """
-    <style>
-    /* FORCE DARK BACKGROUND EVERYWHERE */
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stToolbar"] {
-        background: #0e1117 !important;
-    }
-    [data-testid="stAppViewContainer"] * {
-        color-scheme: dark !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-
-
-
-
-
-
-
 st.markdown("""
 <h1 style="
 background: linear-gradient(90deg,#00D4FF,#7B61FF);
@@ -510,6 +487,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
