@@ -35,6 +35,7 @@ text-shadow: 0 0 18px rgba(16,185,129,0.18);
 font-weight: 700;
 letter-spacing: 0.5px;
 ">
+
 💬 Komiksy Jakuba Martewicza
 </h1>
 
@@ -452,6 +453,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
