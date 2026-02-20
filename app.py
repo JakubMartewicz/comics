@@ -7,6 +7,93 @@ import re
 import yaml
 
 st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
+st.markdown(
+    """
+    <style>
+    /* ====== TŁO ====== */
+    .stApp {
+        background-image: url("assets/backgroundpic.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    /* ====== OVERLAY pod jasne tło ====== */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+            rgba(0,0,0,0.35) 0%,
+            rgba(0,0,0,0.50) 40%,
+            rgba(0,0,0,0.65) 100%
+        );
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .main, header, footer, [data-testid="stSidebar"] {
+        position: relative;
+        z-index: 1;
+    }
+
+    section.main > div.block-container {
+        background: rgba(15,15,15,0.45);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 18px;
+        padding: 2rem 1.5rem;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+    }
+
+    [data-testid="stChatMessage"] {
+        background: rgba(0,0,0,0.60);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 0.75rem 1rem;
+    }
+
+    [data-testid="stChatMessage"] * {
+        color: rgba(255,255,255,0.92) !important;
+    }
+
+    [data-testid="stChatInput"] > div {
+        background: rgba(0,0,0,0.70) !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+        border-radius: 14px !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    [data-testid="stChatInput"] textarea::placeholder {
+        color: rgba(255,255,255,0.65) !important;
+    }
+
+    [data-testid="stSidebar"] > div {
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 768px) {
+        .stApp { background-attachment: scroll; }
+        section.main > div.block-container { padding: 1.25rem 1rem; }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
+
+
+
 st.markdown("""
 <h1 style="
 background: linear-gradient(90deg,#00D4FF,#7B61FF);
@@ -19,27 +106,7 @@ background: linear-gradient(90deg,#00D4FF,#7B61FF);
 <h3 style="color:#9FB3C8;">Wirtualna Asystentka AI</h3>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<style>
-.pulse-dot {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 8px;
-  border-radius: 50%;
-  background: #6EE7B7;
-  box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.7);
-  animation: pulse 1.4s infinite;
-  transform: translateY(1px);
-}
 
-@keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.7); }
-  70%  { box-shadow: 0 0 0 10px rgba(110, 231, 183, 0.0); }
-  100% { box-shadow: 0 0 0 0 rgba(110, 231, 183, 0.0); }
-}
-</style>
-""", unsafe_allow_html=True)
 
 st.caption(
     "Zadaj Lorze pytanie o moje komiksy w okienku czatu poniżej🙂",
@@ -415,6 +482,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
