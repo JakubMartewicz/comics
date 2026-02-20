@@ -183,6 +183,24 @@ def rag_light_context(question: str, docs, k: int = 4) -> str:
   
     q = normalize(question)
 
+    def build_catalog(docs) -> str:
+        items = []
+        for d in docs:
+            m = d["meta"]
+            items.append(
+                f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, tom/zeszyt: {m.get('volume') or '-'} / {m.get('issue') or '-'}"
+            )
+        return "W bazie mam takie komiksy:\n" + "\n".join(items) if items else "Baza komiksów jest pusta."
+    
+    def rag_light_context(question: str, docs, k: int = 4) -> str:
+        q = normalize(question)
+    
+        # ✅ INTENCJA: bardzo ogólne pytanie o komiksy -> pokaż listę
+        general_catalog_intent = q in {"komiksy", "komiks", "twoje komiksy", "twoj komiks", "katalog", "oferta"}
+    
+        if general_catalog_intent:
+            return build_catalog(docs)
+
     # 🔥 FALLBACK — pytanie ogólne o listę wydań (nawet bez słowa "komiks")
     
     list_intent = any(x in q for x in [
@@ -243,7 +261,9 @@ def rag_light_context(question: str, docs, k: int = 4) -> str:
     top = [d for _, d in scored[:k]]
 
     if not top:
-        return "Brak dopasowanych komiksów w bazie dla tego pytania."
+        # ✅ zamiast ślepego "brak", daj użytkownikowi użyteczną odpowiedź
+        return build_catalog(docs) + "\n\n(Jeśli doprecyzujesz tytuł/serię/postać, zawężę wyniki.)"
+
 
     blocks = []
     for d in top:
@@ -405,6 +425,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
