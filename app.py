@@ -51,10 +51,6 @@ set_bg("assets/backgroundpic.png")
 
 
 
-
-
-
-
 st.markdown("""
 <h1 style="
 background: linear-gradient(
@@ -71,7 +67,6 @@ background: linear-gradient(
 );
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-
 text-shadow:
 0 0 22px rgba(16,185,129,0.45),
 0 0 42px rgba(52,211,153,0.35),
@@ -82,11 +77,6 @@ text-shadow:
 
 <h3 style="color:#FDE68A;">Wirtualna Asystentka AI</h3>
 """, unsafe_allow_html=True)
-
-
-
-
-
 
 
 
@@ -466,6 +456,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
