@@ -72,7 +72,7 @@ letter-spacing:0.4px;
 💬 Komiksy Jakuba Martewicza
 </h1>
 <h3 style="color:#D1FAE5; font-weight:500;">
-Wirtualna Asystentka AI
+Lora, Wirtualna Asystentka AI
 </h3>
 """, unsafe_allow_html=True)
 
@@ -452,6 +452,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
