@@ -51,9 +51,6 @@ def set_bg(image_path: str):
 
 
 
-
-
-
 st.markdown("""
 <h1 style="
 background: linear-gradient(
@@ -77,13 +74,6 @@ letter-spacing:0.4px;
 Wirtualna Asystentka AI
 </h3>
 """, unsafe_allow_html=True)
-
-
-
-
-
-
-
 
 
 
@@ -461,6 +451,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
