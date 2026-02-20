@@ -18,7 +18,7 @@ def set_bg(image_path: str):
 
 
 
-
+st.markdown("""
 <h1 style="
 background: linear-gradient(
 90deg,
@@ -31,13 +31,20 @@ background: linear-gradient(
 );
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
-text-shadow: 0 0 18px rgba(16,185,129,0.18);
-font-weight: 700;
-letter-spacing: 0.5px;
-">
 
+text-shadow: 0 0 14px rgba(16,185,129,0.15);
+font-weight:700;
+letter-spacing:0.4px;
+">
 💬 Komiksy Jakuba Martewicza
 </h1>
+
+<h3 style="color:#D1FAE5; font-weight:500;">
+Wirtualna Asystentka AI
+</h3>
+""", unsafe_allow_html=True)
+
+
 
 
 
@@ -453,6 +460,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
