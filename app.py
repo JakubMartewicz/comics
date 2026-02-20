@@ -60,7 +60,7 @@ set_bg("assets/backgroundpic.png")
 
 st.markdown("""
 <h1 style="
-background: linear-gradient(90deg,#8B5CF6,#EC4899,#F43F5E);
+background: linear-gradient(90deg,#8B5CF6,#6366F1,#22D3EE,#F472B6);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 ">
@@ -446,6 +446,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
