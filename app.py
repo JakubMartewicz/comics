@@ -184,7 +184,7 @@ def build_catalog(docs) -> str:
     for d in docs:
         m = d["meta"]
         items.append(
-            f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, tom/zeszyt: {m.get('volume') or '-'} / {m.get('issue') or '-'}"
+            f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, zeszyt: {m.get('issue') or '-'}"
         )
 
     return (
@@ -217,7 +217,7 @@ def rag_light_context(question: str, docs, k: int = 4) -> str:
         for d in docs:
             m = d["meta"]
             items.append(
-                f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, tom/zeszyt: {m.get('volume')}/{m.get('issue')}"
+                f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, zeszyt: {m.get('issue')}"
             )
     
         return "W bazie mam takie komiksy:\n" + "\n".join(items)
@@ -274,7 +274,7 @@ def rag_light_context(question: str, docs, k: int = 4) -> str:
             f"Tytuł: {m.get('title')}\n"
             f"Rok: {m.get('year')}\n"
             f"Seria: {m.get('series')}\n"
-            f"Tom/Zeszyt: {m.get('volume') or '-'} / {m.get('issue') or '-'}\n"
+            f"Zeszyt: {m.get('issue') or '-'}\n"
             f"Słowa kluczowe: {', '.join(m.get('keywords') or [])}\n"
             f"Streszczenie: {m.get('synopsis')}\n"
         )
@@ -415,6 +415,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
