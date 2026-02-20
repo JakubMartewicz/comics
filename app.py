@@ -343,59 +343,6 @@ if "messages" not in st.session_state:
 
 question = st.chat_input("Tutaj wpisz Twoje pytanie i naciśnij enter lub kliknij strzałkę")
 
-if question and question.strip():
-    st.session_state.messages.append({"role": "user", "content": question.strip()})
-    show_typing()
-
-    typing_container = st.empty()
-    with typing_container.container():
-        with st.chat_message("assistant", avatar="jakub.png"):
-            typing_placeholder = st.empty()   # tu będzie animacja "Jakub pisze..."
-            answer_placeholder = st.empty()   # tu będzie narastająca odpowiedź
-
-    dots = ["", ".", "..", "..."]
-    i = 0
-    full_text = ""
-    last_tick = time.time()
-
-
-
-    
-    context = rag_light_context(q, comics_docs, k=4)
-    
-    # bierzemy ostatnie wiadomości, ale BEZ tego świeżo dodanego pytania usera
-    base_messages = last_messages(st.session_state.messages[:-1], n=12)
-    
-    messages_for_api = (
-        base_messages
-        + [{"role": "user", "content": "DOPASOWANE FRAGMENTY Z BAZY KOMIKSÓW:\n\n" + context}]
-        + [{"role": "user", "content": q}]
-    )
-
-  
-
-    stream = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages_for_api,
-        stream=True,
-    )
-
-
-    for event in stream:
-        # animacja co ~150ms
-        now = time.time()
-        if now - last_tick > 0.15:
-            typing_placeholder.markdown(f"_Jakub pisze{dots[i % len(dots)]}_")
-            i += 1
-            last_tick = now
-
-        # dopisuj tokeny do odpowiedzi
-        delta = event.choices[0].delta
-        if delta and getattr(delta, "content", None):
-            full_text += delta.content
-            answer_placeholder.markdown(full_text)
-
-    typing_container.empty()
 
 if question and question.strip():
     q = question.strip()
@@ -468,6 +415,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
