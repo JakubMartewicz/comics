@@ -341,9 +341,23 @@ if question and question.strip():
 
     context = rag_light_context(question.strip(), comics_docs, k=4)
 
-    messages_for_api = last_messages(st.session_state.messages, n=12) + [
-        {"role": "system", "content": "DOPASOWANE FRAGMENTY Z BAZY KOMIKSÓW:\n\n" + context}
-    ]
+
+        q = question.strip()
+    st.session_state.messages.append({"role": "user", "content": q})
+    show_typing()
+    
+    context = rag_light_context(q, comics_docs, k=4)
+    
+    # bierzemy ostatnie wiadomości, ale BEZ tego świeżo dodanego pytania usera
+    base_messages = last_messages(st.session_state.messages[:-1], n=12)
+    
+    messages_for_api = (
+        base_messages
+        + [{"role": "user", "content": "DOPASOWANE FRAGMENTY Z BAZY KOMIKSÓW:\n\n" + context}]
+        + [{"role": "user", "content": q}]
+    )
+
+  
 
     stream = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -391,6 +405,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
