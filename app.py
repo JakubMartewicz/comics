@@ -14,38 +14,34 @@ def set_bg(image_path: str):
     with open(image_path, "rb") as f:
         data = base64.b64encode(f.read()).decode("utf-8")
 
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{data}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }}
 
-        .stApp::before {{
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(
-                rgba(0,0,0,0.35) 0%,
-                rgba(0,0,0,0.50) 40%,
-                rgba(0,0,0,0.65) 100%
-            );
-            z-index: 0;
-            pointer-events: none;
-        }}
 
-        .main, header, footer, [data-testid="stSidebar"] {{
-            position: relative;
-            z-index: 1;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+
+
+
+<h1 style="
+background: linear-gradient(
+90deg,
+#064E3B 0%,
+#065F46 18%,
+#047857 36%,
+#059669 54%,
+#10B981 72%,
+#6EE7B7 100%
+);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+text-shadow: 0 0 18px rgba(16,185,129,0.18);
+font-weight: 700;
+letter-spacing: 0.5px;
+">
+💬 Komiksy Jakuba Martewicza
+</h1>
+
+
+
+
+
 
 set_bg("assets/backgroundpic.png")
 
@@ -456,6 +452,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
