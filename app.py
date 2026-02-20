@@ -53,11 +53,6 @@ set_bg("assets/backgroundpic.png")
 
 
 
-
-
-
-
-
 st.markdown("""
 <h1 style="
 background: linear-gradient(
@@ -71,13 +66,14 @@ background: linear-gradient(
 );
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
+text-shadow: 0 0 18px rgba(139,92,246,0.35),
+             0 0 32px rgba(236,72,153,0.25);
 ">
 💬 Komiksy Jakuba Martewicza
 </h1>
 
 <h3 style="color:#F5D0A7;">Wirtualna Asystentka AI</h3>
 """, unsafe_allow_html=True)
-
 
 
 st.caption(
@@ -454,6 +450,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
