@@ -179,11 +179,19 @@ def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", (text or "").lower()).strip()
 
 
-def rag_light_context(question: str, docs, k: int = 4) -> str:
-  
-    q = normalize(question)
+def build_catalog(docs) -> str:
+    items = []
+    for d in docs:
+        m = d["meta"]
+        items.append(
+            f"- {m.get('title')} ({m.get('year')}) — seria: {m.get('series')}, tom/zeszyt: {m.get('volume') or '-'} / {m.get('issue') or '-'}"
+        )
 
-
+    return (
+        "W bazie mam takie komiksy:\n" + "\n".join(items)
+        if items else
+        "Baza komiksów jest pusta."
+    )
     
 def rag_light_context(question: str, docs, k: int = 4) -> str:
     q = normalize(question)
@@ -418,6 +426,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
