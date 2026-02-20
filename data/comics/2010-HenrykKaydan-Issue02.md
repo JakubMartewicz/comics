@@ -8,7 +8,6 @@ publisher: "Nakład własny autora"
 isbn: null
 
 series: "Henryk Kaydan"
-volume: 1
 issue: 2
 
 available_covers:
@@ -90,6 +89,7 @@ festivals:
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
