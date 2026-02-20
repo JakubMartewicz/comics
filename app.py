@@ -7,86 +7,94 @@ import re
 import yaml
 
 st.set_page_config(page_title="Komiksy Jakuba Martewicza", page_icon="💬")
-st.markdown(
-    """
-    <style>
-    /* ====== TŁO ====== */
-    .stApp {
-        background-image: url("assets/backgroundpic.png");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
+import base64
 
-    /* ====== OVERLAY pod jasne tło ====== */
-    .stApp::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: linear-gradient(
-            rgba(0,0,0,0.35) 0%,
-            rgba(0,0,0,0.50) 40%,
-            rgba(0,0,0,0.65) 100%
-        );
-        z-index: 0;
-        pointer-events: none;
-    }
+def set_bg(image_path: str):
+    with open(image_path, "rb") as f:
+        data = base64.b64encode(f.read()).decode("utf-8")
 
-    .main, header, footer, [data-testid="stSidebar"] {
-        position: relative;
-        z-index: 1;
-    }
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{data}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
 
-    section.main > div.block-container {
-        background: rgba(15,15,15,0.45);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 18px;
-        padding: 2rem 1.5rem;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.35);
-    }
+        .stApp::before {{
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(
+                rgba(0,0,0,0.35) 0%,
+                rgba(0,0,0,0.50) 40%,
+                rgba(0,0,0,0.65) 100%
+            );
+            z-index: 0;
+            pointer-events: none;
+        }}
 
-    [data-testid="stChatMessage"] {
-        background: rgba(0,0,0,0.60);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 16px;
-        padding: 0.75rem 1rem;
-    }
+        .main, header, footer, [data-testid="stSidebar"] {{
+            position: relative;
+            z-index: 1;
+        }}
 
-    [data-testid="stChatMessage"] * {
-        color: rgba(255,255,255,0.92) !important;
-    }
+        section.main > div.block-container {{
+            background: rgba(15,15,15,0.45);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+        }}
 
-    [data-testid="stChatInput"] > div {
-        background: rgba(0,0,0,0.70) !important;
-        border: 1px solid rgba(255,255,255,0.12) !important;
-        border-radius: 14px !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-    }
+        [data-testid="stChatMessage"] {{
+            background: rgba(0,0,0,0.60);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 0.75rem 1rem;
+        }}
 
-    [data-testid="stChatInput"] textarea::placeholder {
-        color: rgba(255,255,255,0.65) !important;
-    }
+        [data-testid="stChatMessage"] * {{
+            color: rgba(255,255,255,0.92) !important;
+        }}
 
-    [data-testid="stSidebar"] > div {
-        background: rgba(0,0,0,0.55);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-right: 1px solid rgba(255,255,255,0.08);
-    }
+        [data-testid="stChatInput"] > div {{
+            background: rgba(0,0,0,0.70) !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            border-radius: 14px !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }}
 
-    @media (max-width: 768px) {
-        .stApp { background-attachment: scroll; }
-        section.main > div.block-container { padding: 1.25rem 1rem; }
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+        [data-testid="stChatInput"] textarea::placeholder {{
+            color: rgba(255,255,255,0.65) !important;
+        }}
+
+        [data-testid="stSidebar"] > div {{
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255,255,255,0.08);
+        }}
+
+        @media (max-width: 768px) {{
+            .stApp {{ background-attachment: scroll; }}
+            section.main > div.block-container {{ padding: 1.25rem 1rem; }}
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+set_bg("assets/backgroundpic.png")
+
+
 
 
 
@@ -482,6 +490,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
