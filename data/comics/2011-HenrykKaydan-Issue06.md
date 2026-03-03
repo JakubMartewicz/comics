@@ -80,7 +80,7 @@ keywords:
   - "Włochy"
   - "Mediolan"
 
-synopsis: 'Epilog trylogii "Odliczanie"! Plus, dodatkowa historia kryminalna z życia Marty Olak!'
+synopsis: 'Epilog trylogii! Plus, dodatkowa historia kryminalna z życia Marty Olak!'
 
 age_rating: "13+"
 
@@ -100,6 +100,7 @@ printings:
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
