@@ -71,10 +71,12 @@ setting:
 
 keywords:
   - "Kaydan"
-  - "początek"
-  - "porwanie"
+  - "odliczanie"
+  - "zamach"
   - "kryminał"
   - "polski glina"
+  - "Włochy"
+  - "Mediolan"
 
 synopsis: "Kaydan i włoska agentka policji Carla Vignoli kontynuują rozwiązywanie tajemniczej sprawy Stanisława MAślaka, który wysadził w MEdiolanie w powietrze siebie i trzech sycylijczyków..."
 
@@ -91,6 +93,7 @@ festivals:
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
