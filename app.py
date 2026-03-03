@@ -324,9 +324,18 @@ def rag_light_context(question: str, docs, k: int = 4) -> str:
     return context[:6000]  # limit znaków, żeby prompt nie urósł za bardzo
 
 
+from pathlib import Path
+import os
+
+def comics_cache_key(folder="data/comics"):
+    files = sorted(Path(folder).glob("*.md"))
+    return tuple((str(p), os.path.getmtime(p)) for p in files)
+
 @st.cache_data
-def load_comics_cached():
+def load_comics_cached(_key):
     return load_comics("data/comics")
+
+comics_docs = load_comics_cached(comics_cache_key())
 
 def last_messages(messages, n=12):
     # zostawiamy pierwszy system_prompt, a potem tylko ostatnie n wiadomości user/assistant
@@ -337,11 +346,6 @@ def last_messages(messages, n=12):
 api_key = os.getenv("OPENAI_API_KEY")
 
 comics_docs = load_comics_cached()
-if not comics_docs:
-    st.error("Brak poprawnych plików .md w data/comics (wymagane YAML: id/title/year).")
-    st.stop()
-    st.write("MD files:", sorted(glob.glob("data/comics/*.md")))
-    st.write("Loaded:", [d["meta"].get("id") for d in comics_docs])
 
 feedback_text = os.getenv("FEEDBACK_TEXT", "")
 
@@ -452,6 +456,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
