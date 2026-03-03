@@ -83,12 +83,11 @@ content_notes:
   - "pulp"
 
 festivals:
-  - name: "Międzynarodowy Festiwal Komiksu w Łodzi"
-    year: 2011
 
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
