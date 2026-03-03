@@ -71,10 +71,12 @@ setting:
 
 keywords:
   - "Kaydan"
-  - "początek"
-  - "porwanie"
+  - "odliczanie"
+  - "zamach"
   - "kryminał"
   - "polski glina"
+  - "Włochy"
+  - "Mediolan"
 
 synopsis: "Morderstwo popełnione w Mediolanie sprowadza Henryka Kaydana do Włoch. Na prośbę włoskiej policji, polski agent podejmuje się rozwiązania tejemniczego morderstwa. Towarzyszy mu włoska agentka Carla Vignoli..."
 
@@ -93,6 +95,7 @@ festivals:
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
