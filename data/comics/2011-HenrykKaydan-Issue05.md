@@ -78,7 +78,7 @@ keywords:
   - "Włochy"
   - "Mediolan"
 
-synopsis: 'Zaskakujący i wybuchowy finał trylogii "Odliczanie"! Po wydarzeniach z tego numeru Warszawa już nigdy nie będzie wyglądać tak samo!'
+synopsis: "Zaskakujący i wybuchowy finał trylogii Odliczanie! Po wydarzeniach z tego numeru Warszawa już nigdy nie będzie wyglądać tak samo!"
 
 age_rating: "13+"
 
@@ -93,6 +93,7 @@ festivals:
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
