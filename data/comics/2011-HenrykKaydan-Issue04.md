@@ -78,7 +78,7 @@ keywords:
   - "Włochy"
   - "Mediolan"
 
-synopsis: "Kaydan i włoska agentka policji Carla Vignoli kontynuują rozwiązywanie tajemniczej sprawy Stanisława MAślaka, który wysadził w MEdiolanie w powietrze siebie i trzech sycylijczyków..."
+synopsis: "Kaydan i włoska agentka policji Carla Vignoli kontynuują rozwiązywanie tajemniczej sprawy Stanisława MAślaka, który wysadził w Mediolanie w powietrze siebie i trzech sycylijczyków..."
 
 age_rating: "13+"
 
@@ -93,6 +93,7 @@ festivals:
 links:
   facebook_group: "https://www.facebook.com/groups/jakubmartewicz"
 ---
+
 
 
 
